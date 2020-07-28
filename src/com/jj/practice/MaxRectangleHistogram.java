@@ -49,7 +49,7 @@ public class MaxRectangleHistogram {
             return array[i] < array[j] ? i : j;
         }
 
-        // range minimum Index query
+        // range minimum Index query.
         public int rmIDXq(int from, int to) {
             if(from < 0 || to >= array.length || from > to)  throw new IllegalArgumentException("invalid argument");
             return rmIDXq(1, 0, array.length-1, from, to);
