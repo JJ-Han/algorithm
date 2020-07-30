@@ -18,11 +18,13 @@ public class MaxRectangle {
                             {12, 24, 18},
                             {-21, 7, -9},
                             {-6, 24, -11} };
+        int[][] test3 = {};                             // edge case
         System.out.println(getMaxRectangle(test1));
-        System.out.println(getMaxRectangle(test2));
+        System.out.println(getMaxRectangle(test3));
     }
 
     public static int getMaxRectangle(int[][] a) {
+        if(a == null || a.length == 0 || a[0].length == 0) return 0;        // edge case
         int r = a.length, c = a[0].length, max = a[0][0];
         for(int i = 0; i < r; i++) {
             int[] sum = new int[c];

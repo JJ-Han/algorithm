@@ -2,15 +2,22 @@ package com.jj.practice;
 
 // https://practice.geeksforgeeks.org/problems/maximum-rectangular-area-in-a-histogram/0
 // https://www.geeksforgeeks.org/largest-rectangular-area-in-a-histogram-set-1/
+// https://leetcode.com/problems/largest-rectangle-in-histogram/
+
+// Algorithm using segment tree to find maximum rectangle area in histogram
+// Time Complexity O(nlogn) Space Complexity O(n)
+
 import java.util.Arrays;
 
 public class MaxRectangleHistogram {
     public static void main(String[] args) {
         int[] hist = {6, 2, 5, 4, 5, 1, 6};
-        System.out.println(maxRectangle(hist));
+        int[] hist2 = {};                                       // edge case
+        System.out.println(maxRectangle(hist2));
     }
 
     public static int maxRectangle(int[] hist) {
+        if(hist == null || hist.length == 0)    return 0;       // edge case
         SegTree st = new SegTree(hist);
         return maxRectangle(st, 0, hist.length-1);
     }
