@@ -9,7 +9,7 @@ public class LSDradixSort {
 
     // In case of String, LSD works only if the array contains same length of String
     // for various length of Strings, use MSD Radix Sort
-    private static void radixSort(String[] a, int w) {
+    public static void radixSort(String[] a, int w) {
         int n = a.length;
         int R = 256;
         String[] aux = new String[n];
@@ -28,7 +28,7 @@ public class LSDradixSort {
         }
     }
 
-    private static void radixSort(int[] a) {
+    public static void radixSort(int[] a) {
         final int BITS = 32;
         final int R = 1 << BITS_PER_BYTES;
         final int MASK = R-1;                   // 0xFF
