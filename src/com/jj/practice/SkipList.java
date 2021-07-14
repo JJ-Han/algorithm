@@ -11,7 +11,7 @@ import java.util.Random;
 class SkipList {
     private static final int INIT_CAPACITY = 8;
     private final int MIN_BOUNDARY;     // lower boundary of headCapacity
-    private final int MAX_LEVEL = 140;  // 2 ^ h = # of elements, where h is optimal maximum level, when P = 0.5
+    private final int MAX_LEVEL = 20;  // 2 ^ h = # of elements, where h is optimal maximum level, when P = 0.5
     private final double P = 0.5;
     private final Node head;
     private int headCapacity;
