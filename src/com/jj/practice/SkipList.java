@@ -10,12 +10,13 @@ import java.util.Random;
 
 class SkipList {
     private static final int INIT_CAPACITY = 8;
-    private final int MIN_BOUNDARY;     // lower boundary of headCapacity
-    private final int MAX_LEVEL = 20;  // 2 ^ h = # of elements, where h is optimal maximum level, when P = 0.5
+    private final int targetSize;
+    private final int maxLevel;        // 2 ^ h = # of elements, where h is optimal maximum level, when P = 0.5
     private final double P = 0.5;
-    private final Node head;
-    private int headCapacity;
+    private int headCapacity = INIT_CAPACITY;
     private int headLevel = 0;
+    private int n = 0;
+    private final Node head = new Node(0, headCapacity);
 
     private class Node {
         private final int val;
@@ -27,15 +28,10 @@ class SkipList {
         }
     }
 
-    public SkipList() {
-        this(INIT_CAPACITY);
-    }
-
     public SkipList(int size) {
         if (size == 0) throw new IllegalArgumentException("size should be greater than 0");
-        MIN_BOUNDARY = size/2;
-        headCapacity = size;
-        head = new Node(0, size);
+        maxLevel = Math.max(1, (int) Math.ceil( (Math.log(size) / Math.log(2)) ));
+        targetSize = (int) Math.pow(2, maxLevel);
     }
 
     public boolean search(int target) {
@@ -50,6 +46,8 @@ class SkipList {
         }
         return false;
     }
+
+    public int size() { return n; }
 
     public int getLevel() {
         return headLevel;
@@ -68,10 +66,12 @@ class SkipList {
 
         Node x = new Node(num, level);
         for (int i = 0; i < level; i++) {
-            Node n = update[i].next[i];
+            Node t = update[i].next[i];
             update[i].next[i] = x;
-            x.next[i] = n;
+            x.next[i] = t;
         }
+        n++;
+        assert (n < targetSize) : "Warning: current size of SkipList exceeds the expected size";
     }
 
     public boolean erase(int num) {
@@ -85,7 +85,11 @@ class SkipList {
             update[i].next[i] = update[i].next[i].next[i];
         }
 
-        if (head.next[headLevel-1] == null && --headLevel >= MIN_BOUNDARY && headLevel == headCapacity/4) resizeHead(headCapacity/2);
+        if (head.next[headLevel-1] == null) {
+            headLevel--;
+            if (headCapacity > INIT_CAPACITY && headLevel == headCapacity / 4) resizeHead(headCapacity / 2);
+        }
+        n--;
         return true;
     }
 
@@ -100,7 +104,7 @@ class SkipList {
 
     // Fixed the dice implement: generate a random level that is more than one greater than the current level
     private int getRandomLevel() {
-        int level = 1, limit = Math.min(MAX_LEVEL, headLevel + 1);
+        int level = 1, limit = Math.min(maxLevel, headLevel + 1);
         while (Math.random() < P && level < limit) level++;
         return level;
     }
@@ -125,7 +129,7 @@ class SkipList {
     }
 
     public static void main(String[] args) {
-        SkipList skipList = new SkipList();
+        SkipList skipList = new SkipList(100);
         Random rand = new Random();
         for (int i = 0; i < 100; i++) {
             skipList.add(rand.nextInt(200));
