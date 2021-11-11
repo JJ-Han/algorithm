@@ -41,6 +41,7 @@ public class IndexMinPQ<Key extends Comparable<Key>> {
     }
 
     public int minIndex() {
+        if (n == 0) throw new NoSuchElementException("Priority queue underflow");
         return pq[1];
     }
 
