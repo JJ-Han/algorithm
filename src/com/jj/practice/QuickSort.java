@@ -2,7 +2,6 @@ package com.jj.practice;
 
 public class QuickSort {
     private QuickSort() {
-
     }
 
     public static void sort(Comparable[] a) {
@@ -22,8 +21,8 @@ public class QuickSort {
         int lo = 0, hi = a.length-1;
         while (lo < hi) {
             int i = partition(a, lo, hi);
-            if (i > k) lo = i + 1;
-            else if (i < k) hi = i - 1;
+            if (i > k) hi = i - 1;
+            else if (i < k) lo = i + 1;
             else return a[i];
         }
         return a[lo];
@@ -67,13 +66,15 @@ public class QuickSort {
     }
 
     public static void main(String[] args) {
-        for (int t = 0; t < 100; t++) {
-            Integer[] test = new Integer[100000];
+        for (int t = 0; t < 1; t++) {
+            Integer[] test = new Integer[20];
             for (int i = 0; i < test.length; i++) {
-                test[i] = (int) (Math.random() * 100000);
+                test[i] = i;
             }
-            sort(test);
-            if (!isSorted(test)) System.out.println("FAIL");
+            shuffle(test);
+//            sort(test);
+//            if (!isSorted(test)) System.out.println("FAIL");
+            if (select(test, 50000).equals(50000)) System.out.println("FAIL");
         }
         System.out.println("PASS");
     }
